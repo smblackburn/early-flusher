@@ -35,3 +35,39 @@ get '/crazy' do
     end
   end
 end
+
+get '/parallel' do
+  # This will execute the first three blocks in order,
+  # then the next three in parallel, and finally the
+  # last block will execute
+  earlyflush do |page|
+    page.flush do
+      sleep(3)
+      "1 - serial<br>"
+    end
+    page.flush do
+      sleep(3)
+      "2 - serial<br>"
+    end
+    page.flush do
+      sleep(3)
+      "3 - serial<br>"
+    end
+    page.pflush do
+      sleep(3)
+      "4 - parallel<br>"
+    end
+    page.pflush do
+      sleep(3)
+      "5 - parallel<br>"
+    end
+    page.pflush do
+      sleep(3)
+      "6 - parallel<br>"
+    end
+    page.flush do
+      sleep(3)
+      "7 - serial<br>"
+    end
+  end
+end
