@@ -71,3 +71,66 @@ get '/parallel' do
     end
   end
 end
+
+get '/bigpipe' do
+  big_pipe_head = %[
+  <html>
+    <head>
+      <meta charset="utf-8">
+      <style>
+        body { background-color: white; color: black; text-align: center; }
+        div { border-style: solid; border-width: 1px; position: absolute;}
+      </style>
+      <script>
+        function big_pipe(json)
+        {
+            var div_to_set = document.getElementById(json.div_id);
+            div_to_set.innerHTML = json.markup;
+        }
+      </script>
+      <title>BigPipe Fun!</title>
+    </head>
+    <body>
+      <div id='header' style='width: 980px; height: 65px; left: 10px; top: 10px;'>
+      </div>
+      <div id='left-rail' style='width: 150px; height: 800px; left: 10px; top: 80px;'>
+      </div>
+      <div id='main' style='width: 670px; height: 800px; left: 165px; top: 80px;'>
+      </div>
+      <div id='right-rail' style='width: 150px; height: 800px; left: 840px; top: 80px;'>
+      </div>]
+      
+  big_pipe_tail = %[
+    </body>
+  <html>]
+  
+  bigpipe do |pipe|
+    pipe.first_flush do
+      big_pipe_head
+    end
+    
+    pipe.pagelet('header') do
+      sleep(1)
+      '<strong>BigPiped Header!</strong>'
+    end
+    
+    pipe.pagelet('left-rail') do
+      sleep(2)
+      'Left-Rail'
+    end
+    
+    pipe.pagelet('right-rail') do
+      sleep(2)
+      'Right-Rail'
+    end
+    
+    pipe.pagelet('main') do
+      sleep(3)
+      'Main Content'
+    end
+    
+    pipe.last_flush do
+      big_pipe_tail
+    end
+  end
+end
