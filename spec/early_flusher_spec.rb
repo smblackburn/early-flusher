@@ -30,7 +30,7 @@ describe Sinatra::EarlyFlusherHelper::EarlyFlush do
     end
     early_flusher.flush(&block)
     early_flusher.blocks.length.should eql(1)
-    early_flusher.blocks.first.should eql(block)
+    early_flusher.blocks.first.proc.should eql(block)
   end
 
   it "should add a newline to all flushes" do

@@ -71,7 +71,7 @@ module Sinatra
     # Sinatra Helper method
     #
     def earlyflush(&block)
-      headers "Transfer-Encoding" => "chunked"
+      headers "Content-Transfer-Encoding" => "chunked"
       EarlyFlush.new(&block)
     end
   end

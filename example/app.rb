@@ -1,6 +1,7 @@
 require 'rubygems'
 require 'sinatra'
 require '../lib/sinatra/early_flusher'
+require '../lib/sinatra/big_pipe'
 
 get '/crazy' do
   # call out earlyflush helper

@@ -48,7 +48,7 @@ module Sinatra
 
       def each
 
-        yield self.first_block.call(self) + NEWLINE_SEPARATOR
+        yield self.first_block.call(self) + NEWLINE_SEPARATOR if self.first_block
 
         threads = []
         self.pagelets.each do |pagelet|
@@ -68,7 +68,7 @@ module Sinatra
           yield %[<script type="text/javascript" src="#{script}"></script>] + NEWLINE_SEPARATOR
         end
 
-        yield self.last_block.call(self) + NEWLINE_SEPARATOR
+        yield self.last_block.call(self) + NEWLINE_SEPARATOR if self.last_block
       end
 
       def first_flush(&block)
@@ -102,7 +102,7 @@ module Sinatra
     # Sinatra Helper method
     #
     def bigpipe(&block)
-      headers "Transfer-Encoding" => "chunked"
+      headers "Content-Transfer-Encoding" => "chunked"
       BigPipe.new(&block)
     end
   end
